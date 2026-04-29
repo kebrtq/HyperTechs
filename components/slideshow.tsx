@@ -32,7 +32,9 @@ export function Slideshow({ items }: SlideshowProps) {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => {
         const nextIndex = (prev + 1) % items.length
-        api.scrollTo(nextIndex)
+        requestAnimationFrame(() => {
+          api.scrollTo(nextIndex)
+        })
         setProgress(100)
         return nextIndex
       })

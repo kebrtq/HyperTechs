@@ -1,8 +1,25 @@
+"use client"
+
 import Link from "next/link"
-import { Cpu, Facebook, Instagram, MessageCircle, Send } from "lucide-react"
-import { categories } from "@/lib/types"
+import { Cpu, Facebook, Instagram, MessageCircle } from "lucide-react"
+import { useEffect, useState } from "react"
+import { SanityCategory } from "@/lib/types"
+import { getCategories } from "@/lib/getCategories"
 
 export function SiteFooter() {
+  const [categories, setCategories] = useState<SanityCategory[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getCategories()
+      .then(setCategories)
+      .catch(err => {
+        console.error("Failed to load footer categories:", err)
+        setCategories([])
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
   return (
     <footer className="border-t bg-muted/40">
       <div className="container mx-auto px-4 py-12">
@@ -24,10 +41,10 @@ export function SiteFooter() {
           <div>
             <h3 className="mb-4 text-sm font-semibold">Categories</h3>
             <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
-              {categories.slice(0, 4).map((category) => (
-                <li key={category.slug}>
+              {!loading && categories.slice(0, 4).map((category) => (
+                <li key={category._id}>
                   <Link
-                    href={`/category/${category.slug}`}
+                    href={`/category/${category.slug || "uncategorized"}`}
                     className="transition-colors hover:text-foreground"
                   >
                     {category.name}
@@ -41,10 +58,10 @@ export function SiteFooter() {
           <div>
             <h3 className="mb-4 text-sm font-semibold">More</h3>
             <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
-              {categories.slice(4).map((category) => (
-                <li key={category.slug}>
+              {!loading && categories.slice(4).map((category) => (
+                <li key={category._id}>
                   <Link
-                    href={`/category/${category.slug}`}
+                    href={`/category/${category.slug || "uncategorized"}`}
                     className="transition-colors hover:text-foreground"
                   >
                     {category.name}
@@ -54,7 +71,7 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Warranty */}
+          {/* Support */}
           <div>
             <h3 className="mb-4 text-sm font-semibold">Support</h3>
             <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
@@ -97,15 +114,6 @@ export function SiteFooter() {
             >
               <MessageCircle className="h-5 w-5" />
               WhatsApp: 0776 847 7953
-            </Link>
-            <Link
-              href="https://t.me/hyper1tech"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-base text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <Send className="h-5 w-5" />
-              Telegram: 0776 847 7953
             </Link>
           </div>
         </div>

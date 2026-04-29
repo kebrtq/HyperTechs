@@ -1,4 +1,5 @@
 ﻿import { SanityProduct } from "./types"
+import { fetchSanity } from "./getCategories"
 
 type SanitySlideshowItem = {
   title: string
@@ -18,26 +19,6 @@ function buildUrl(query: string) {
   }
 
   return `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${encodeURIComponent(query)}`
-}
-
-async function fetchSanity<T>(query: string, defaultValue: T): Promise<T> {
-  try {
-    const url = buildUrl(query)
-    if (!url) return defaultValue
-
-    const res = await fetch(url, { cache: "no-store" })
-
-    if (!res.ok) {
-      console.error("Sanity fetch failed:", res.status, url)
-      return defaultValue
-    }
-
-    const data = await res.json()
-    return data?.result ?? defaultValue
-  } catch (error) {
-    console.error("Sanity fetch error:", error)
-    return defaultValue
-  }
 }
 
 // ✅ GET ALL PRODUCTS
@@ -60,7 +41,8 @@ export async function getProducts(): Promise<SanityProduct[]> {
     "inStock": quantity > 0
   }`
 
-  return (await fetchSanity<SanityProduct[]>(query, [])) || []
+  const url = buildUrl(query)
+  return url ? fetchSanity(url, []) : []
 }
 
 // ✅ GET SINGLE PRODUCT
@@ -86,7 +68,8 @@ export async function getProductById(id: string): Promise<SanityProduct | undefi
       "inStock": quantity > 0
     }`
 
-    const result = await fetchSanity<SanityProduct | undefined>(query, undefined)
+    const url = buildUrl(query)
+    const result = url ? fetchSanity(url, undefined) : undefined
     return result || undefined
   } catch (error) {
     console.error("getProductById error:", error)
@@ -103,5 +86,6 @@ export async function getSlideshow(): Promise<SanitySlideshowItem[]> {
     "productName": product->name
   }`
 
-  return (await fetchSanity<SanitySlideshowItem[]>(query, [])) || []
+  const url = buildUrl(query)
+  return url ? fetchSanity(url, []) : []
 }
