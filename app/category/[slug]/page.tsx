@@ -30,7 +30,7 @@ export default async function CategoryPage(
   let products = await getProducts()
 
   products = products.filter(
-    (p) => p.categorySlug === slug
+    (p: any) => p.categorySlug === slug
   )
 
   return (

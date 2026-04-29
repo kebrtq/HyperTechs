@@ -32,7 +32,7 @@ useEffect(() => {
       return
     }
 
-    const filtered = products.filter((p) =>
+    const filtered = products.filter((p: any) =>
       p.name?.toLowerCase().includes(query)
     )
 
