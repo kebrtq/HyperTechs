@@ -3,9 +3,9 @@ import { getProductById, getProducts } from "@/lib/getProducts"
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  let id = params?.id
+  const { id } = await context.params
 
   if (!id) {
     const products = await getProducts()
