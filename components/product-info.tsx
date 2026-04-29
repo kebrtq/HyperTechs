@@ -16,6 +16,8 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const { toast } = useToast()
   const [quantity, setQuantity] = useState(1)
 
+  const originalPrice = ("oldPrice" in product && product.oldPrice) || ("originalPrice" in product && product.originalPrice)
+
   // Function to format description with table-like structure for multiple spaces
   const formatDescription = (description: string) => {
     const lines = description.split('\n')
@@ -104,13 +106,13 @@ export function ProductInfo({ product }: ProductInfoProps) {
         {product.price?.toLocaleString()} IQD
       </p>
 
-      {("oldPrice" in product) && product.oldPrice && (
+      {originalPrice && (
         <div className="mt-2">
           <span className="text-sm text-muted-foreground line-through">
-            {product.oldPrice.toLocaleString()} IQD
+            {originalPrice.toLocaleString()} IQD
           </span>
           <span className="text-sm text-red-500 ml-2">
-            -{Math.round((1 - product.price / product.oldPrice) * 100)}%
+            -{Math.round((1 - product.price / originalPrice) * 100)}%
           </span>
         </div>
       )}

@@ -20,8 +20,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const { addItem } = useCart()
   const { toast } = useToast()
 
-  const discount = ("oldPrice" in product) && product.oldPrice
-    ? Math.round((1 - product.price / product.oldPrice) * 100)
+  const originalPrice = ("oldPrice" in product && product.oldPrice) || ("originalPrice" in product && product.originalPrice)
+
+  const discount = originalPrice
+    ? Math.round((1 - product.price / originalPrice) * 100)
     : 0
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -106,15 +108,15 @@ export function ProductCard({ product, className }: ProductCardProps) {
       : 'Out of stock'}
   </span>
 
-  {("oldPrice" in product) && product.oldPrice && (
+  {originalPrice && (
     <>
       <span className="text-xs text-muted-foreground line-through">
-        {product.oldPrice.toLocaleString()} IQD
+        {originalPrice.toLocaleString()} IQD
       </span>
 
       <span className="text-xs text-red-500">
         -{Math.round(
-          (1 - product.price / product.oldPrice) * 100
+          (1 - product.price / originalPrice) * 100
         )}%
       </span>
     </>

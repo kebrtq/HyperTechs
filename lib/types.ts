@@ -15,6 +15,7 @@ export interface Product {
   category: Category
   price: number
   oldPrice?: number
+  originalPrice?: number
   image: string
   description: string
   specs: Record<string, string>
@@ -36,6 +37,7 @@ export interface SanityProduct {
   name: string
   price: number
   oldPrice?: number
+  originalPrice?: number
   description: string
   image: string
   images?: string[]
