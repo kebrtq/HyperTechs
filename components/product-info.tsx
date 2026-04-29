@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, ReactNode } from "react"
 import { Minus, Plus, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/lib/cart-context"
@@ -19,7 +19,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
   // Function to format description with table-like structure for multiple spaces
   const formatDescription = (description: string) => {
     const lines = description.split('\n')
-    const formattedLines: JSX.Element[] = []
+    const formattedLines: ReactNode[] = []
 
     for (const line of lines) {
       // Check if line contains 5 or more consecutive spaces
