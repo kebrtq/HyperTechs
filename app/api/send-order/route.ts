@@ -7,6 +7,11 @@ export async function POST(request: NextRequest) {
 
     console.log('New Order Received:', orderData)
 
+    // Parse the message to extract total from the last line
+    const messageLines = orderData.message.split('\n')
+    const totalMatch = messageLines[messageLines.length - 1].match(/[\d,]+/)
+    const totalPrice = totalMatch ? totalMatch[0] : 'Unknown'
+
     // Send email via Resend
     const resendApiKey = process.env.RESEND_API_KEY
     if (!resendApiKey) {
@@ -28,6 +33,8 @@ export async function POST(request: NextRequest) {
             <pre style="background: #f5f5f5; padding: 10px; border-radius: 5px;">
 ${orderData.message}
             </pre>
+            <hr style="border: 1px solid #ddd;" />
+            <p style="font-weight: bold; color: #27ae60;">إجمالي الطلب: ${totalPrice} IQD</p>
           </div>
         `
       })
@@ -58,7 +65,8 @@ ${orderData.message}
     return NextResponse.json({
       success: true,
       message: 'Order processed successfully',
-      orderId: `ORD-${Date.now()}`
+      orderId: `ORD-${Date.now()}`,
+      total: totalPrice
     })
 
   } catch (error) {

@@ -162,7 +162,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
           <Button onClick={handleAddToCart} className="w-full" size="lg">
             <ShoppingCart className="mr-2 h-5 w-5" />
-            Add to Cart - {((product.price || 0) * quantity).toLocaleString()} IQD
+            اضافة الى السلة - {((product.price || 0) * quantity).toLocaleString()} IQD
           </Button>
         </div>
       )}

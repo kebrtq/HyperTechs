@@ -9,6 +9,14 @@ import { Label } from "@/components/ui/label"
 import { useCart } from "@/lib/cart-context"
 import { CartItem } from "@/lib/types"
 
+// Helper function to normalize Arabic digits to English
+function normalizeNumber(input: string): string {
+  return input.replace(/[٠-٩]/g, (d) => {
+    const arabicDigits = "٠١٢٣٤٥٦٧٨٩"
+    return String(arabicDigits.indexOf(d))
+  })
+}
+
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -36,8 +44,12 @@ export default function CheckoutPage() {
     if (!formData.address.trim()) newErrors.address = "هذا الحقل مطلوب"
     if (!formData.phone.trim()) {
       newErrors.phone = "هذا الحقل مطلوب"
-    } else if (!/^07\d{9}$/.test(formData.phone)) {
-      newErrors.phone = "يرجى إدخال رقم هاتف صحيح يبدأ بـ 07"
+    } else {
+      const normalizedPhone = normalizeNumber(formData.phone)
+      // Accept both Arabic (٠٧) and English (07) format, total 11 digits
+      if (!/^07\d{9}$/.test(normalizedPhone) && !/^٠٧\d{9}$/.test(formData.phone)) {
+        newErrors.phone = "يرجى إدخال رقم هاتف صحيح: 07XXXXXXXXX أو ٠٧XXXXXXXXX (11 رقم)"
+      }
     }
 
     setErrors(newErrors)
@@ -54,7 +66,16 @@ export default function CheckoutPage() {
     setIsSubmitting(true)
 
     try {
-      const message = `*طلب جديد من HyperTech*\n\n*الاسم:* ${formData.name}\n*المحافظة:* ${formData.governorate}\n*العنوان / التفاصيل:* ${formData.address}\n*الهاتف:* ${formData.phone}${formData.phone2 ? `\n*هاتف إضافي:* ${formData.phone2}` : ""}${formData.notes ? `\n*ملاحظات الطلب:* ${formData.notes}` : ""}\n\n*طريقة الدفع:* الدفع نقدًا عند الاستلام\n\n*تفاصيل الطلب:*\n${items.map(item => `- ${item.product.name} x${item.quantity} = ${((item.product.price || 0) * item.quantity).toLocaleString()} IQD`).join("\n")}\n\n*الشحن:* ${shipping.toLocaleString()} IQD\n*الإجمالي:* ${(subtotal + shipping).toLocaleString()} IQD`
+      const normalizedPhone = normalizeNumber(formData.phone)
+      const normalizedPhone2 = formData.phone2 ? normalizeNumber(formData.phone2) : ""
+      
+      const itemsTotal = items.reduce(
+        (sum, item) => sum + (item.product.price || 0) * item.quantity,
+        0
+      )
+      const total = itemsTotal + shipping
+
+      const message = `*طلب جديد من HyperTech*\n\n*الاسم:* ${formData.name}\n*المحافظة:* ${formData.governorate}\n*العنوان / التفاصيل:* ${formData.address}\n*الهاتف:* ${normalizedPhone}${normalizedPhone2 ? `\n*هاتف إضافي:* ${normalizedPhone2}` : ""}${formData.notes ? `\n*ملاحظات الطلب:* ${formData.notes}` : ""}\n\n*طريقة الدفع:* الدفع نقدًا عند الاستلام\n\n*تفاصيل الطلب:*\n${items.map(item => `- ${item.product.name} x${item.quantity} = ${((item.product.price || 0) * item.quantity).toLocaleString()} IQD`).join("\n")}\n\n*الشحن:* ${shipping.toLocaleString()} IQD\n*الإجمالي:* ${total.toLocaleString()} IQD`
 
       const response = await fetch('/api/send-order', {
         method: 'POST',
@@ -158,7 +179,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex justify-between font-bold pt-2 border-t">
                     <span>الإجمالي</span>
-                    <span>{(subtotal + shipping).toLocaleString()} IQD</span>
+                    <span>{(completedItems.reduce((sum, item) => sum + ((item.product.price || 0) * item.quantity), 0) + shipping).toLocaleString()} IQD</span>
                   </div>
                 </div>
               </div>
@@ -308,12 +329,23 @@ export default function CheckoutPage() {
               <CardTitle>ملخص الطلب</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {items.map((item) => (
-                  <div key={item.product.id} className="flex justify-between items-center py-2">
-                    <span className="flex-1">{item.product.name}</span>
-                    <span className="invisible px-4">spacer</span>
-                    <span className="text-left">{((item.product.price || 0) * item.quantity).toLocaleString()} IQD</span>
+                  <div key={item.product.id} className="flex justify-between items-center py-2 border-b">
+                    <div className="flex items-center gap-2 flex-1">
+                      {item.product.image && (
+                        <img
+                          src={item.product.image}
+                          alt={item.product.name}
+                          className="w-12 h-12 object-contain"
+                        />
+                      )}
+                      <div className="flex-1">
+                        <span className="text-sm">{item.product.name}</span>
+                        <span className="text-xs text-muted-foreground">x{item.quantity}</span>
+                      </div>
+                    </div>
+                    <span className="text-left text-sm font-medium">{((item.product.price || 0) * item.quantity).toLocaleString()} IQD</span>
                   </div>
                 ))}
               </div>

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 
@@ -11,10 +12,10 @@ export default async function CategoryPage(
 ) {
   const { slug } = await params
 
-  const categories: SanityCategory[] = await getCategories()
+  const categories: SanityCategory[] = (await getCategories().catch(() => [])) || []
 
   const category = categories.find(
-    (c: SanityCategory) => c.slug === slug
+    (c: SanityCategory) => (c.slug || "uncategorized") === slug
   )
 
   if (!category) {
@@ -26,10 +27,10 @@ export default async function CategoryPage(
     )
   }
 
-  let products: SanityProduct[] = await getProducts()
+  let products: SanityProduct[] = (await getProducts().catch(() => [])) || []
 
   products = products.filter(
-    (p: SanityProduct) => p.categorySlug === slug
+    (p: SanityProduct) => (p.categorySlug || "uncategorized") === slug
   )
 
   return (

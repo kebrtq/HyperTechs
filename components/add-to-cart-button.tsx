@@ -58,12 +58,12 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
         {added ? (
           <>
             <Check className="mr-2 h-5 w-5" />
-            Added to Cart
+            تمت الإضافة
           </>
         ) : (
           <>
             <ShoppingCart className="mr-2 h-5 w-5" />
-            Add to Cart
+            اضافة الى السلة
           </>
         )}
       </Button>

@@ -1,17 +1,30 @@
+export const dynamic = "force-dynamic"
 import Link from "next/link"
-import { getSlideshow } from "@/lib/getProducts"
+import { getSlideshow, getProducts } from "@/lib/getProducts"
 import { getCategories } from "@/lib/getCategories"
 import { Slideshow } from "@/components/slideshow"
 import { SanityCategory } from "@/lib/types"
 
 export default async function HomePage() {
 
-  const categories: SanityCategory[] = await getCategories()
-  const slideshowItems: { title: string; image: string; productId: string; productName: string }[] = await getSlideshow()
+  const categories: SanityCategory[] = (await getCategories().catch((e) => {
+    console.error("Categories error:", e)
+    return []
+  })) || []
 
-  // Sort categories in specific order
+  const slideshowItems = (await getSlideshow().catch((e) => {
+    console.error("Slideshow error:", e)
+    return []
+  })) || []
+
+  const products = (await getProducts().catch((e) => {
+    console.error("Products error:", e)
+    return []
+  })) || []
+
   const categoryOrder = ['graphic card', 'cpu', 'motherboard', 'memory', 'storage', 'power supply', 'cooler']
-  categories.sort((a: SanityCategory, b: SanityCategory) => {
+
+  categories.sort((a, b) => {
     const aIndex = categoryOrder.indexOf(a.name.toLowerCase())
     const bIndex = categoryOrder.indexOf(b.name.toLowerCase())
     if (aIndex === -1) return 1
@@ -22,16 +35,16 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
 
-      {/* Hero */}
       <section className="text-center py-12">
         <h1 className="text-4xl font-bold">HyperTech</h1>
         <p className="text-gray-500">Premium PC parts in Iraq</p>
+        <p className="text-sm text-gray-500 mt-2">
+          Browse {products.length} products in our catalog.
+        </p>
       </section>
 
-      {/* Slideshow */}
       <Slideshow items={slideshowItems} />
 
-      {/* Categories (SAFE VERSION) */}
       <section className="container mx-auto px-4 py-12">
 
         {categories.length === 0 && (
@@ -42,14 +55,13 @@ export default async function HomePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
 
-          {categories.map((category: SanityCategory) => (
+          {categories.map((category) => (
             <Link
               key={category._id}
-              href={`/category/${category.slug || ""}`}
+              href={`/category/${category.slug || "uncategorized"}`}
               className="border rounded p-3 hover:shadow"
             >
 
-              {/* IMAGE SAFE */}
               {category.image && (
                 <div className="w-full h-40 bg-white rounded flex items-center justify-center">
                   <img
@@ -60,7 +72,6 @@ export default async function HomePage() {
                 </div>
               )}
 
-              {/* NAME */}
               <h2 className="text-center mt-2 font-semibold">
                 {category.name}
               </h2>

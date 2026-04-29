@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Star, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -48,12 +47,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
     <Card className={cn("group overflow-hidden", className)}>
       <Link href={`/product/${encodeURIComponent(product.id)}`}>
         <div className="relative aspect-square overflow-hidden bg-white">
-          <Image
+          <img
             src={product.image}
             alt={product.name}
-            fill
-            className="object-contain transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="w-full h-full object-contain"
           />
           {discount > 0 && (
             <Badge className="absolute left-2 top-2" variant="destructive">
@@ -72,7 +69,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           {"brand" in product ? product.brand : ""}
         </div>
         <Link href={`/product/${encodeURIComponent(product.id)}`}>
-          <h3 className="line-clamp-2 text-base font-bold leading-tight transition-colors hover:text-primary">
+          <h3 className="text-sm md:text-base font-medium line-clamp-2">
             {product.name}
           </h3>
         </Link>
@@ -128,7 +125,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           disabled={!(product.inStock ?? false)}
         >
           <ShoppingCart className="mr-1 h-4 w-4" />
-          Add
+          اضافة
         </Button>
       </CardFooter>
     </Card>

@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -49,18 +48,18 @@ export function CartContent() {
         </div>
 
         <div className="space-y-4">
-          {items.map(({ product, quantity }: any) => (
+          {items.map(({ product, quantity }: any) => {
+            const imageUrl = product.image || product.images?.[0] || "/placeholder.png"
+            return (
             <Card key={product.id}>
               <CardContent className="flex gap-4 p-4">
                 {/* Product Image */}
                 <Link href={`/product/${product.id}`} className="shrink-0">
                   <div className="relative h-24 w-24 overflow-hidden rounded-md bg-muted">
-                    <Image
-                      src={product.image}
+                    <img
+                      src={imageUrl}
                       alt={product.name}
-                      fill
-                      className="object-cover"
-                      sizes="96px"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 </Link>
@@ -128,7 +127,8 @@ export function CartContent() {
                 </div>
               </CardContent>
             </Card>
-          ))}
+            )
+          })}
         </div>
       </div>
 
