@@ -49,7 +49,7 @@ export function CartContent() {
         </div>
 
         <div className="space-y-4">
-          {items.map(({ product, quantity }) => (
+          {items.map(({ product, quantity }: any) => (
             <Card key={product.id}>
               <CardContent className="flex gap-4 p-4">
                 {/* Product Image */}

@@ -26,7 +26,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
     for (const line of lines) {
       // Check if line contains 5 or more consecutive spaces
       if (/.{0,} {5,}.*/.test(line)) {
-        const parts = line.split(/\s{5,}/).map((part) => part.trim())
+        const parts = line.split(/\s{5,}/).map((part: string) => part.trim())
         let left = parts[0] || ''
         let right = parts.slice(1).join('   ').trim()
 

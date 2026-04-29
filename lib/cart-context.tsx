@@ -46,13 +46,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
 
     setItems(current => {
-      const existing = current.find(item => item.product.id === product.id)
+      const existing = current.find((item: any) => item.product.id === product.id)
       if (existing) {
         // Check if adding would exceed available stock (only for products with quantity)
         if ("quantity" in product && existing.quantity + quantity > product.quantity) {
           return current // Don't add if it would exceed stock
         }
-        return current.map(item =>
+        return current.map((item: any) =>
           item.product.id === product.id
             ? { ...item, quantity: item.quantity + quantity }
             : item

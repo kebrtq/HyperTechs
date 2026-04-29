@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Search } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
-import { getProducts } from "@/lib/getProducts"
+import { getProducts } from "@/lib/getProducts.ts"
 import { SanityProduct } from "@/lib/types"
 
 export function SearchResults() {

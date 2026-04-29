@@ -78,12 +78,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
         {"rating" in product && "reviewCount" in product && (
           <div className="mt-2 flex items-center gap-1">
             <div className="flex items-center">
-              {Array.from({ length: 5 }).map((_, i) => (
+              {Array.from({ length: 5 }).map((_, i: number) => (
                 <Star
                   key={i}
                   className={cn(
                     "h-3 w-3",
-                    i < Math.floor(product.rating)
+                    i < Math.floor(("rating" in product && product.rating) || 0)
                       ? "fill-amber-400 text-amber-400"
                       : "fill-muted text-muted"
                   )}
@@ -91,7 +91,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               ))}
             </div>
             <span className="text-xs text-muted-foreground">
-              ({product.reviewCount})
+              ({("reviewCount" in product && product.reviewCount) || 0})
             </span>
           </div>
         )}

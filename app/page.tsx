@@ -1,6 +1,6 @@
 import Link from "next/link"
-import { getSlideshow } from "@/lib/getProducts"
-import { getCategories } from "@/lib/getCategories"
+import { getSlideshow } from "@/lib/getProducts.ts"
+import { getCategories } from "@/lib/getCategories.ts"
 import { Slideshow } from "@/components/slideshow"
 import { SanityCategory } from "@/lib/types"
 
