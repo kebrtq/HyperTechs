@@ -13,5 +13,25 @@
     "NEXT_PUBLIC_SANITY_PROJECT_ID": "djk7wupr",
     "NEXT_PUBLIC_SANITY_DATASET": "production",
     "NEXT_PUBLIC_SANITY_API_VERSION": "2023-01-01"
-  }
+  },
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "name": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "name": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "name": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
 }

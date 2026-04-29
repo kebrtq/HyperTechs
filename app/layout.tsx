@@ -5,6 +5,7 @@ import { CartProvider } from '@/lib/cart-context'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { Toaster } from '@/components/ui/toaster'
+import { ErrorHandler } from '@/components/error-handler'
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-background">
       <body className={`${inter.variable} font-sans antialiased`}>
+        <ErrorHandler />
         <CartProvider>
           <div className="flex min-h-screen flex-col">
             <SiteHeader />
