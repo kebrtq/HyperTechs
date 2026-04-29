@@ -1,17 +1,20 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://hypertechiq.com"
+
   return [
     {
-      url: 'http://localhost:3001',
+      url: `${baseUrl}`,
       lastModified: new Date(),
     },
     {
-      url: 'http://localhost:3001/products',
+      url: `${baseUrl}/products`,
       lastModified: new Date(),
     },
     {
-      url: 'http://localhost:3001/contact',
+      url: `${baseUrl}/contact`,
       lastModified: new Date(),
     },
   ]
