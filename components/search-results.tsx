@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Search } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
-import { getProducts } from "@/lib/getProducts"
 import { SanityProduct } from "@/lib/types"
 
 export function SearchResults() {
@@ -21,24 +20,30 @@ useEffect(() => {
 
   useEffect(() => {
     async function load() {
-      const data: SanityProduct[] = await getProducts()
-      setProducts(data)
+      try {
+        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`)
+        if (response.ok) {
+          const data: SanityProduct[] = await response.json()
+          setProducts(data)
+          setResults(data) // Set results directly since API already filters
+        } else {
+          console.error("Failed to fetch products")
+          setProducts([])
+          setResults([])
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error)
+        setProducts([])
+        setResults([])
+      }
     }
-    load()
-  }, [])
-
-  useEffect(() => {
-    if (!query) {
+    if (query) {
+      load()
+    } else {
+      setProducts([])
       setResults([])
-      return
     }
-
-    const filtered = products.filter((p: SanityProduct) =>
-      p.name?.toLowerCase().includes(query)
-    )
-
-    setResults(filtered)
-  }, [query, products])
+  }, [query])
 
   return (
     <div>
