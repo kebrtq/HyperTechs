@@ -1,13 +1,5 @@
-﻿import dynamic from "next/dynamic"
-import { Suspense } from "react"
-
-const SearchResults = dynamic(
-  () =>
-    import("@/components/search-results").then(
-      (mod) => mod.SearchResults
-    ),
-  { ssr: false }
-)
+﻿import { Suspense } from "react"
+import { SearchResults } from "@/components/search-results"
 
 export const dynamic = "force-dynamic"
 
