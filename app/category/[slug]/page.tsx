@@ -4,8 +4,8 @@ import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 
 import { ProductCard } from "@/components/product-card"
-import { getProducts } from "@/lib/getProducts.ts"
-import { getCategories } from "@/lib/getCategories.ts"
+import { getProducts } from "@/lib/getProducts"
+import { getCategories } from "@/lib/getCategories"
 import { SanityProduct, SanityCategory } from "@/lib/types"
 
 export default async function CategoryPage(

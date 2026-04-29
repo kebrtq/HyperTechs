@@ -3,7 +3,7 @@ import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 import ProductSlider from "@/components/product-slider"
 import { ProductInfo } from "@/components/product-info"
-import { getProductById } from "@/lib/getProducts.ts"
+import { getProductById } from "@/lib/getProducts"
 import type { SanityProduct } from "@/lib/types"
 
 export default async function ProductPage({

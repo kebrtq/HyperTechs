@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server"
-import { getProductById, getProducts } from "@/lib/getProducts.ts"
+import { getProductById, getProducts } from "@/lib/getProducts"
 
 export async function GET(
   request: NextRequest,
