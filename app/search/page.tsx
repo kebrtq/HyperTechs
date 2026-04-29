@@ -1,7 +1,15 @@
-﻿import { Suspense } from "react"
-import { SearchResults } from "@/components/search-results"
+﻿import dynamic from "next/dynamic"
+import { Suspense } from "react"
 
-export const dynamic = 'force-dynamic'
+const SearchResults = dynamic(
+  () =>
+    import("@/components/search-results").then(
+      (mod) => mod.SearchResults
+    ),
+  { ssr: false }
+)
+
+export const dynamic = "force-dynamic"
 
 export default function SearchPage() {
   return (
