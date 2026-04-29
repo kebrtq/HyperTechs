@@ -19,7 +19,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
   // Function to format description with table-like structure for multiple spaces
   const formatDescription = (description: string) => {
     const lines = description.split('\n')
-    const formattedLines = []
+    const formattedLines: JSX.Element[] = []
 
     for (const line of lines) {
       // Check if line contains 5 or more consecutive spaces

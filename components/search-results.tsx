@@ -21,7 +21,7 @@ useEffect(() => {
 
   useEffect(() => {
     async function load() {
-      const data = await getProducts()
+      const data: SanityProduct[] = await getProducts()
       setProducts(data)
     }
     load()

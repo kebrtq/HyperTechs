@@ -2,15 +2,16 @@ import Link from "next/link"
 import { getSlideshow } from "@/lib/getProducts"
 import { getCategories } from "@/lib/getCategories"
 import { Slideshow } from "@/components/slideshow"
+import { SanityCategory } from "@/lib/types"
 
 export default async function HomePage() {
 
-  const categories = await getCategories()
-  const slideshowItems = await getSlideshow()
+  const categories: SanityCategory[] = await getCategories()
+  const slideshowItems: { title: string; image: string; productId: string; productName: string }[] = await getSlideshow()
 
   // Sort categories in specific order
   const categoryOrder = ['graphic card', 'cpu', 'motherboard', 'memory', 'storage', 'power supply', 'cooler']
-  categories.sort((a, b) => {
+  categories.sort((a: SanityCategory, b: SanityCategory) => {
     const aIndex = categoryOrder.indexOf(a.name.toLowerCase())
     const bIndex = categoryOrder.indexOf(b.name.toLowerCase())
     if (aIndex === -1) return 1
@@ -41,7 +42,7 @@ export default async function HomePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
 
-          {categories.map((category) => (
+          {categories.map((category: SanityCategory) => (
             <Link
               key={category._id}
               href={`/category/${category.slug || ""}`}
