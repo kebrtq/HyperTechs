@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "hypertechs",
   "compatibility_date": "2026-04-29",
@@ -6,5 +7,11 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
+  },
+
+  "vars": {
+    "NEXT_PUBLIC_SANITY_PROJECT_ID": "djk7wupr",
+    "NEXT_PUBLIC_SANITY_DATASET": "production",
+    "NEXT_PUBLIC_SANITY_API_VERSION": "2023-01-01"
   }
 }
