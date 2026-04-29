@@ -20,7 +20,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const { addItem } = useCart()
   const { toast } = useToast()
 
-  const discount = product.oldPrice
+  const discount = ("oldPrice" in product) && product.oldPrice
     ? Math.round((1 - product.price / product.oldPrice) * 100)
     : 0
 
@@ -102,11 +102,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
   </span>
   <span className="text-xs text-muted-foreground mt-1 block">
     {product.inStock
-      ? `In stock: ${product.quantity}`
+      ? ("quantity" in product ? `In stock: ${product.quantity}` : 'In stock')
       : 'Out of stock'}
   </span>
 
-  {product.oldPrice && (
+  {("oldPrice" in product) && product.oldPrice && (
     <>
       <span className="text-xs text-muted-foreground line-through">
         {product.oldPrice.toLocaleString()} IQD

@@ -69,7 +69,9 @@ export function CartContent() {
                 <div className="flex flex-1 flex-col">
                   <div className="flex justify-between">
                     <div>
-                      <p className="text-xs text-muted-foreground">{product.brand}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {"brand" in product ? product.brand : ""}
+                      </p>
                       <Link href={`/product/${product.id}`}>
                         <h3 className="font-medium transition-colors hover:text-primary">
                           {product.name}

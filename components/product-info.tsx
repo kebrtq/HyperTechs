@@ -82,7 +82,10 @@ export function ProductInfo({ product }: ProductInfoProps) {
   }
 
   const increaseQuantity = () => {
-    if (quantity < product.quantity) {
+    if ("quantity" in product && quantity < product.quantity) {
+      setQuantity(quantity + 1)
+    } else if (!("quantity" in product)) {
+      // If no quantity limit, allow unlimited increase
       setQuantity(quantity + 1)
     }
   }
@@ -101,7 +104,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         {product.price?.toLocaleString()} IQD
       </p>
 
-      {product.oldPrice && (
+      {("oldPrice" in product) && product.oldPrice && (
         <div className="mt-2">
           <span className="text-sm text-muted-foreground line-through">
             {product.oldPrice.toLocaleString()} IQD
@@ -119,7 +122,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
       <p className="mt-4">
         {product.inStock ? (
           <span className="text-green-600">
-            ✅ In Stock ({product.quantity} available)
+            ✅ In Stock {"quantity" in product ? `(${product.quantity} available)` : ""}
           </span>
         ) : (
           <span className="text-red-600">
@@ -150,7 +153,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                 size="icon"
                 className="h-8 w-8 rounded-l-none"
                 onClick={increaseQuantity}
-                disabled={quantity >= product.quantity}
+                disabled={("quantity" in product) && quantity >= product.quantity}
               >
                 <Plus className="h-3 w-3" />
               </Button>
