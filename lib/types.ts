@@ -21,7 +21,7 @@ export interface Product {
   specs: Record<string, string>
   rating: number
   reviewCount: number
-  quantity: number
+  quantity?: number
   inStock: boolean
   featured?: boolean
 }
@@ -42,8 +42,13 @@ export interface SanityProduct {
   image: string
   images?: string[]
   categorySlug: string
-  quantity: number
+  quantity?: number
   inStock: boolean
+  brand?: string
+  specs?: Record<string, string>
+  rating?: number
+  reviewCount?: number
+  featured?: boolean
 }
 
 export interface SanityCategory {
