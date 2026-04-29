@@ -49,7 +49,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const existing = current.find((item: any) => item.product.id === product.id)
       if (existing) {
         // Check if adding would exceed available stock (only for products with quantity)
-        if ("quantity" in product && existing.quantity + quantity > product.quantity) {
+        if (product.quantity !== undefined && existing.quantity + quantity > product.quantity) {
           return current // Don't add if it would exceed stock
         }
         return current.map((item: any) =>
@@ -80,7 +80,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
 
     // Check stock limit (only for products with quantity)
-    if ("quantity" in item.product && quantity > item.product.quantity) {
+    if (item.product.quantity !== undefined && quantity > item.product.quantity) {
       return // Don't allow quantity above stock
     }
 

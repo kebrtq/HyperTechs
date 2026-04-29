@@ -85,10 +85,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
   }
 
   const increaseQuantity = () => {
-    if ("quantity" in product && quantity < product.quantity) {
-      setQuantity(quantity + 1)
-    } else if (!("quantity" in product)) {
-      // If no quantity limit, allow unlimited increase
+    if (product.quantity === undefined || quantity < product.quantity) {
       setQuantity(quantity + 1)
     }
   }
@@ -156,7 +153,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                 size="icon"
                 className="h-8 w-8 rounded-l-none"
                 onClick={increaseQuantity}
-                disabled={("quantity" in product) && quantity >= product.quantity}
+                disabled={product.quantity !== undefined && quantity >= product.quantity}
               >
                 <Plus className="h-3 w-3" />
               </Button>
