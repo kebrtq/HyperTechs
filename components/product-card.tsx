@@ -7,12 +7,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
-import { Product } from "@/lib/types"
+import { ProductOrSanity } from "@/lib/types"
 import { useCart } from "@/lib/cart-context"
 import { useToast } from "@/hooks/use-toast"
 
 interface ProductCardProps {
-  product: Product
+  product: ProductOrSanity
   className?: string
 }
 
@@ -65,30 +65,34 @@ export function ProductCard({ product, className }: ProductCardProps) {
         </div>
       </Link>
       <CardContent className="p-4">
-        <div className="mb-1 text-xs text-muted-foreground">{product.brand}</div>
+        <div className="mb-1 text-xs text-muted-foreground">
+          {"brand" in product ? product.brand : ""}
+        </div>
         <Link href={`/product/${encodeURIComponent(product.id)}`}>
           <h3 className="line-clamp-2 text-base font-bold leading-tight transition-colors hover:text-primary">
             {product.name}
           </h3>
         </Link>
-        <div className="mt-2 flex items-center gap-1">
-          <div className="flex items-center">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className={cn(
-                  "h-3 w-3",
-                  i < Math.floor(product.rating)
-                    ? "fill-amber-400 text-amber-400"
-                    : "fill-muted text-muted"
-                )}
-              />
-            ))}
+        {"rating" in product && "reviewCount" in product && (
+          <div className="mt-2 flex items-center gap-1">
+            <div className="flex items-center">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  className={cn(
+                    "h-3 w-3",
+                    i < Math.floor(product.rating)
+                      ? "fill-amber-400 text-amber-400"
+                      : "fill-muted text-muted"
+                  )}
+                />
+              ))}
+            </div>
+            <span className="text-xs text-muted-foreground">
+              ({product.reviewCount})
+            </span>
           </div>
-          <span className="text-xs text-muted-foreground">
-            ({product.reviewCount})
-          </span>
-        </div>
+        )}
       </CardContent>
       <CardFooter className="flex items-center justify-between p-4 pt-0">
        <div className="flex flex-col">

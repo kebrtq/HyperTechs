@@ -5,10 +5,10 @@ import { Minus, Plus, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/lib/cart-context"
 import { useToast } from "@/hooks/use-toast"
-import { Product } from "@/lib/types"
+import { ProductOrSanity } from "@/lib/types"
 
 interface ProductInfoProps {
-  product: Product
+  product: ProductOrSanity
 }
 
 export function ProductInfo({ product }: ProductInfoProps) {

@@ -2,7 +2,11 @@
 
 import { useState } from "react"
 
-export default function ProductSlider({ images }) {
+interface ProductSliderProps {
+  images: string[]
+}
+
+export default function ProductSlider({ images }: ProductSliderProps) {
   const [current, setCurrent] = useState(0)
 
   const next = () => {

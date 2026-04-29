@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { Search } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
 import { getProducts } from "@/lib/getProducts"
+import { SanityProduct } from "@/lib/types"
 
 export function SearchResults() {
 const searchParams = useSearchParams()
@@ -15,8 +16,8 @@ useEffect(() => {
   setQuery(q)
 }, [searchParams])
 
-  const [products, setProducts] = useState([])
-  const [results, setResults] = useState([])
+  const [products, setProducts] = useState<SanityProduct[]>([])
+  const [results, setResults] = useState<SanityProduct[]>([])
 
   useEffect(() => {
     async function load() {
@@ -32,7 +33,7 @@ useEffect(() => {
       return
     }
 
-    const filtered = products.filter((p: any) =>
+    const filtered = products.filter((p: SanityProduct) =>
       p.name?.toLowerCase().includes(query)
     )
 
@@ -50,7 +51,7 @@ useEffect(() => {
 
           {results.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {results.map((product) => (
+              {results.map((product: SanityProduct) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>

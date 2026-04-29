@@ -30,6 +30,29 @@ export interface CartItem {
   quantity: number
 }
 
+// Sanity CMS API response types
+export interface SanityProduct {
+  id: string
+  name: string
+  price: number
+  oldPrice?: number
+  description: string
+  image: string
+  images?: string[]
+  categorySlug: string
+  quantity: number
+}
+
+export interface SanityCategory {
+  _id: string
+  name: string
+  slug: string
+  image: string
+}
+
+// Union type for components that can accept either Product or SanityProduct
+export type ProductOrSanity = Product | SanityProduct
+
 export interface CategoryInfo {
   slug: Category
   name: string

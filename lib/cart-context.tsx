@@ -1,11 +1,11 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
-import { CartItem, Product } from "./types"
+import { CartItem, ProductOrSanity } from "./types"
 
 interface CartContextType {
   items: CartItem[]
-  addItem: (product: Product, quantity?: number) => void
+  addItem: (product: ProductOrSanity, quantity?: number) => boolean
   removeItem: (productId: string) => void
   updateQuantity: (productId: string, quantity: number) => void
   clearCart: () => void
@@ -39,7 +39,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, isInitialized])
 
-  const addItem = (product: Product, quantity = 1) => {
+  const addItem = (product: ProductOrSanity, quantity = 1) => {
     // Check if product is in stock
     if (product.quantity <= 0) {
       return false // Return false to indicate failure

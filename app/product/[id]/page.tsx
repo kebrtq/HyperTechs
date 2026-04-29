@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react"
 import ProductSlider from "@/components/product-slider"
 import { ProductInfo } from "@/components/product-info"
 import { getProductById } from "@/lib/getProducts"
-import type { Product } from "@/lib/types"
+import type { SanityProduct } from "@/lib/types"
 
 export default async function ProductPage({
   params,
@@ -12,7 +12,7 @@ export default async function ProductPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const product = await getProductById(id)
+  const product: SanityProduct | undefined = await getProductById(id)
 
   if (!product) {
     notFound()

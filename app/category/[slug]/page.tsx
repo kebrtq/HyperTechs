@@ -6,16 +6,17 @@ import { ChevronRight } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
 import { getProducts } from "@/lib/getProducts"
 import { getCategories } from "@/lib/getCategories"
+import { SanityProduct, SanityCategory } from "@/lib/types"
 
 export default async function CategoryPage(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params
 
-  const categories = await getCategories()
+  const categories: SanityCategory[] = await getCategories()
 
   const category = categories.find(
-    (c: any) => c.slug === slug
+    (c: SanityCategory) => c.slug === slug
   )
 
   if (!category) {
@@ -27,10 +28,10 @@ export default async function CategoryPage(
     )
   }
 
-  let products = await getProducts()
+  let products: SanityProduct[] = await getProducts()
 
   products = products.filter(
-    (p: any) => p.categorySlug === slug
+    (p: SanityProduct) => p.categorySlug === slug
   )
 
   return (
@@ -48,7 +49,7 @@ export default async function CategoryPage(
 
       {products.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {products.map((product: SanityProduct) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

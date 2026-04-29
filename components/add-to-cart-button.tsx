@@ -3,11 +3,11 @@
 import { useState } from "react"
 import { ShoppingCart, Minus, Plus, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Product } from "@/lib/types"
+import { ProductOrSanity } from "@/lib/types"
 import { useCart } from "@/lib/cart-context"
 
 interface AddToCartButtonProps {
-  product: Product
+  product: ProductOrSanity
 }
 
 export function AddToCartButton({ product }: AddToCartButtonProps) {
