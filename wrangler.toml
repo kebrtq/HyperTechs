@@ -2,14 +2,16 @@ name = "hypertechs"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
-[env.production]
-routes = [
-  { pattern = "hypertechs.pages.dev", zone_name = "pages.dev" }
-]
+# Remove routes for Workers deployment
+# [env.production]
+# routes = [
+#   { pattern = "hypertechs.pages.dev", zone_name = "pages.dev" }
+# ]
 
-[[kv_namespaces]]
-binding = "KV"
-id = "your_kv_namespace_id_here"
+# Remove KV if not used
+# [[kv_namespaces]]
+# binding = "KV"
+# id = "your_kv_namespace_id_here"
 
 [vars]
 NEXT_PUBLIC_SANITY_API_TOKEN = "sk1SOgSME7SziJBJVILIWg7Ta5m63mtF5fu9izxcrCz6uvf2z1J7VYsG3liy5V6puf4SNAuFXNWOGR4RNpQJwKjQJJEhgGfJcKsE2sLFEPEUBEI92rLpIdvL6AridIsAkmvDdvOout1FwXdDSmqNMTz4h0DZHlZGhmIWCAqEnD3Jjuezprfp"
