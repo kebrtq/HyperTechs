@@ -1,29 +1,17 @@
-import { NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { getProductById, getProducts } from "@/lib/getProducts"
 
-export async function GET(request, { params }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   let id = params?.id
 
   if (!id) {
-    const url = new URL(request.url)
-    const pathnameSegments = url.pathname.split("/").filter(Boolean)
-    id = pathnameSegments[pathnameSegments.length - 1]
-  }
-
-  if (!id) {
-    return NextResponse.json({ error: "Missing product id" }, { status: 400 })
-  }
-
-  let product = await getProductById(id)
-
-  if (!product) {
     const products = await getProducts()
-    product = products.find((item) => item.id === id)
+    return Response.json(products)
   }
 
-  if (!product) {
-    return NextResponse.json({ error: "Product not found" }, { status: 404 })
-  }
-
-  return NextResponse.json(product)
+  const product = await getProductById(id)
+  return Response.json(product)
 }
