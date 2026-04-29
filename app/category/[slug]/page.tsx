@@ -15,7 +15,7 @@ export default async function CategoryPage(
   const categories = await getCategories()
 
   const category = categories.find(
-    (c) => c.slug === slug
+    (c: any) => c.slug === slug
   )
 
   if (!category) {
