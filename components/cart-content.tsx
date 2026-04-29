@@ -116,11 +116,11 @@ export function CartContent() {
                     {/* Price */}
                     <div className="text-right">
                       <p className="text-base font-semibold">
-                        {(product.price * quantity).toLocaleString()} IQD
+                        {((product.price || 0) * quantity).toLocaleString()} IQD
                       </p>
                       {quantity > 1 && (
                         <p className="text-sm text-muted-foreground">
-                          {product.price.toLocaleString()} IQD للواحد
+                          {(product.price || 0).toLocaleString()} IQD للواحد
                         </p>
                       )}
                     </div>

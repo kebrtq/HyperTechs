@@ -22,8 +22,9 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
   const originalPrice = ("oldPrice" in product && product.oldPrice) || ("originalPrice" in product && product.originalPrice)
 
+  const productPrice = product.price || 0
   const discount = originalPrice
-    ? Math.round((1 - product.price / originalPrice) * 100)
+    ? Math.round((1 - productPrice / originalPrice) * 100)
     : 0
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -59,7 +60,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               -{discount}%
             </Badge>
           )}
-          {!product.inStock && (
+          {!(product.inStock ?? false) && (
             <div className="absolute inset-0 flex items-center justify-center bg-background/80">
               <Badge variant="secondary">Out of Stock</Badge>
             </div>
@@ -97,36 +98,34 @@ export function ProductCard({ product, className }: ProductCardProps) {
         )}
       </CardContent>
       <CardFooter className="flex items-center justify-between p-4 pt-0">
-       <div className="flex flex-col">
+        <div className="flex flex-col">
+          <span className="text-lg font-bold">
+            {productPrice.toLocaleString()} IQD
+          </span>
+          <span className="text-xs text-muted-foreground mt-1 block">
+            {(product.inStock ?? false)
+              ? ("quantity" in product ? `In stock: ${product.quantity || 0}` : 'In stock')
+              : 'Out of stock'}
+          </span>
 
-  <span className="text-lg font-bold">
-    {product.price?.toLocaleString()} IQD
-  </span>
-  <span className="text-xs text-muted-foreground mt-1 block">
-    {product.inStock
-      ? ("quantity" in product ? `In stock: ${product.quantity}` : 'In stock')
-      : 'Out of stock'}
-  </span>
+          {originalPrice && (
+            <>
+              <span className="text-xs text-muted-foreground line-through">
+                {originalPrice.toLocaleString()} IQD
+              </span>
 
-  {originalPrice && (
-    <>
-      <span className="text-xs text-muted-foreground line-through">
-        {originalPrice.toLocaleString()} IQD
-      </span>
-
-      <span className="text-xs text-red-500">
-        -{Math.round(
-          (1 - product.price / originalPrice) * 100
-        )}%
-      </span>
-    </>
-  )}
-
-</div>
+              <span className="text-xs text-red-500">
+                -{Math.round(
+                  (1 - productPrice / originalPrice) * 100
+                )}%
+              </span>
+            </>
+          )}
+        </div>
         <Button
           size="sm"
           onClick={handleAddToCart}
-          disabled={!product.inStock}
+          disabled={!(product.inStock ?? false)}
         >
           <ShoppingCart className="mr-1 h-4 w-4" />
           Add

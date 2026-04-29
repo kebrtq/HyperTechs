@@ -16,6 +16,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const { toast } = useToast()
   const [quantity, setQuantity] = useState(1)
 
+  const productPrice = product.price || 0
   const originalPrice = ("oldPrice" in product && product.oldPrice) || ("originalPrice" in product && product.originalPrice)
 
   // Function to format description with table-like structure for multiple spaces
@@ -103,7 +104,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
       <h1 className="text-3xl font-bold">{product.name}</h1>
 
       <p className="text-xl mt-4 font-semibold">
-        {product.price?.toLocaleString()} IQD
+        {productPrice.toLocaleString()} IQD
       </p>
 
       {originalPrice && (
@@ -112,7 +113,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
             {originalPrice.toLocaleString()} IQD
           </span>
           <span className="text-sm text-red-500 ml-2">
-            -{Math.round((1 - product.price / originalPrice) * 100)}%
+            -{Math.round((1 - productPrice / originalPrice) * 100)}%
           </span>
         </div>
       )}
@@ -122,9 +123,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       <p className="mt-4">
-        {product.inStock ? (
+        {(product.inStock ?? false) ? (
           <span className="text-green-600">
-            ✅ In Stock {"quantity" in product ? `(${product.quantity} available)` : ""}
+            ✅ In Stock {"quantity" in product ? `(${product.quantity || 0} available)` : ""}
           </span>
         ) : (
           <span className="text-red-600">
@@ -133,7 +134,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         )}
       </p>
 
-      {product.inStock && (
+      {(product.inStock ?? false) && (
         <div className="mt-6 space-y-4">
           <div className="flex items-center gap-4">
             <span className="font-medium">Quantity:</span>
@@ -164,7 +165,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
           <Button onClick={handleAddToCart} className="w-full" size="lg">
             <ShoppingCart className="mr-2 h-5 w-5" />
-            Add to Cart - {(product.price * quantity).toLocaleString()} IQD
+            Add to Cart - {((product.price || 0) * quantity).toLocaleString()} IQD
           </Button>
         </div>
       )}

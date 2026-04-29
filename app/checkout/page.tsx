@@ -54,7 +54,7 @@ export default function CheckoutPage() {
     setIsSubmitting(true)
 
     try {
-      const message = `*طلب جديد من HyperTech*\n\n*الاسم:* ${formData.name}\n*المحافظة:* ${formData.governorate}\n*العنوان / التفاصيل:* ${formData.address}\n*الهاتف:* ${formData.phone}${formData.phone2 ? `\n*هاتف إضافي:* ${formData.phone2}` : ""}${formData.notes ? `\n*ملاحظات الطلب:* ${formData.notes}` : ""}\n\n*طريقة الدفع:* الدفع نقدًا عند الاستلام\n\n*تفاصيل الطلب:*\n${items.map(item => `- ${item.product.name} x${item.quantity} = ${(item.product.price * item.quantity).toLocaleString()} IQD`).join("\n")}\n\n*الشحن:* ${shipping.toLocaleString()} IQD\n*الإجمالي:* ${(subtotal + shipping).toLocaleString()} IQD`
+      const message = `*طلب جديد من HyperTech*\n\n*الاسم:* ${formData.name}\n*المحافظة:* ${formData.governorate}\n*العنوان / التفاصيل:* ${formData.address}\n*الهاتف:* ${formData.phone}${formData.phone2 ? `\n*هاتف إضافي:* ${formData.phone2}` : ""}${formData.notes ? `\n*ملاحظات الطلب:* ${formData.notes}` : ""}\n\n*طريقة الدفع:* الدفع نقدًا عند الاستلام\n\n*تفاصيل الطلب:*\n${items.map(item => `- ${item.product.name} x${item.quantity} = ${((item.product.price || 0) * item.quantity).toLocaleString()} IQD`).join("\n")}\n\n*الشحن:* ${shipping.toLocaleString()} IQD\n*الإجمالي:* ${(subtotal + shipping).toLocaleString()} IQD`
 
       const response = await fetch('/api/send-order', {
         method: 'POST',
@@ -149,7 +149,7 @@ export default function CheckoutPage() {
                   {completedItems.map((item) => (
                     <div key={item.product.id} className="flex justify-between text-sm">
                       <span>{item.product.name} x{item.quantity}</span>
-                      <span>{(item.product.price * item.quantity).toLocaleString()} IQD</span>
+                      <span>{((item.product.price || 0) * item.quantity).toLocaleString()} IQD</span>
                     </div>
                   ))}
                   <div className="flex justify-between text-sm">
@@ -313,7 +313,7 @@ export default function CheckoutPage() {
                   <div key={item.product.id} className="flex justify-between items-center py-2">
                     <span className="flex-1">{item.product.name}</span>
                     <span className="invisible px-4">spacer</span>
-                    <span className="text-left">{(item.product.price * item.quantity).toLocaleString()} IQD</span>
+                    <span className="text-left">{((item.product.price || 0) * item.quantity).toLocaleString()} IQD</span>
                   </div>
                 ))}
               </div>

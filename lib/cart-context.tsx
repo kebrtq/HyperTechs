@@ -41,7 +41,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addItem = (product: ProductOrSanity, quantity = 1) => {
     // Check if product is in stock
-    if (!product.inStock) {
+    if (!(product.inStock ?? false)) {
       return false // Return false to indicate failure
     }
 
@@ -74,8 +74,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
 
     // Check if product is still in stock
-    const item = items.find(item => item.product.id === productId)
-    if (!item || !item.product.inStock) {
+    const item = items.find((item: any) => item.product.id === productId)
+    if (!item || !(item.product.inStock ?? false)) {
       return // Don't allow updates for out of stock items
     }
 
@@ -97,7 +97,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0)
   const subtotal = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+    (sum, item) => sum + ((item.product.price || 0) * item.quantity),
     0
   )
 

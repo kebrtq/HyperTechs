@@ -30,7 +30,7 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
           size="icon"
           className="h-10 w-10 rounded-r-none"
           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-          disabled={quantity <= 1 || !product.inStock}
+          disabled={quantity <= 1 || !(product.inStock ?? false)}
         >
           <Minus className="h-4 w-4" />
         </Button>
@@ -42,7 +42,7 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
           size="icon"
           className="h-10 w-10 rounded-l-none"
           onClick={() => setQuantity((q) => q + 1)}
-          disabled={!product.inStock}
+          disabled={!(product.inStock ?? false)}
         >
           <Plus className="h-4 w-4" />
         </Button>
@@ -53,7 +53,7 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
         size="lg"
         className="flex-1 sm:flex-initial"
         onClick={handleAddToCart}
-        disabled={!product.inStock || added}
+        disabled={!(product.inStock ?? false) || added}
       >
         {added ? (
           <>
