@@ -7,9 +7,10 @@ import { ProductCard } from "@/components/product-card"
 import { getProducts } from "@/lib/getProducts"
 import { getCategories } from "@/lib/getCategories"
 
-export default async function CategoryPage({ params }) {
-
-  const { slug } = await params // ✅ FIXED
+export default async function CategoryPage(
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await params
 
   const categories = await getCategories()
 
