@@ -57,7 +57,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               -{discount}%
             </Badge>
           )}
-          {product.quantity === 0 && (
+          {!product.inStock && (
             <div className="absolute inset-0 flex items-center justify-center bg-background/80">
               <Badge variant="secondary">Out of Stock</Badge>
             </div>
@@ -101,7 +101,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
     {product.price?.toLocaleString()} IQD
   </span>
   <span className="text-xs text-muted-foreground mt-1 block">
-    {product.quantity > 0
+    {product.inStock
       ? `In stock: ${product.quantity}`
       : 'Out of stock'}
   </span>
@@ -124,7 +124,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         <Button
           size="sm"
           onClick={handleAddToCart}
-          disabled={product.quantity === 0}
+          disabled={!product.inStock}
         >
           <ShoppingCart className="mr-1 h-4 w-4" />
           Add

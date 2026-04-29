@@ -117,7 +117,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       <p className="mt-4">
-        {product.quantity > 0 ? (
+        {product.inStock ? (
           <span className="text-green-600">
             ✅ In Stock ({product.quantity} available)
           </span>
@@ -128,7 +128,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         )}
       </p>
 
-      {product.quantity > 0 && (
+      {product.inStock && (
         <div className="mt-6 space-y-4">
           <div className="flex items-center gap-4">
             <span className="font-medium">Quantity:</span>

@@ -41,7 +41,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addItem = (product: ProductOrSanity, quantity = 1) => {
     // Check if product is in stock
-    if (product.quantity <= 0) {
+    if (!product.inStock) {
       return false // Return false to indicate failure
     }
 
@@ -73,9 +73,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return
     }
 
-    // Check stock limit
+    // Check if product is still in stock
     const item = items.find(item => item.product.id === productId)
-    if (item && quantity > item.product.quantity) {
+    if (!item || !item.product.inStock) {
+      return // Don't allow updates for out of stock items
+    }
+
+    // Check stock limit
+    if (quantity > item.product.quantity) {
       return // Don't allow quantity above stock
     }
 

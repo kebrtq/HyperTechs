@@ -41,6 +41,7 @@ export interface SanityProduct {
   images?: string[]
   categorySlug: string
   quantity: number
+  inStock: boolean
 }
 
 export interface SanityCategory {
