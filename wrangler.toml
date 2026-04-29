@@ -14,5 +14,8 @@ compatibility_flags = ["nodejs_compat"]
 # id = "your_kv_namespace_id_here"
 
 [vars]
+NEXT_PUBLIC_SANITY_PROJECT_ID = "djk7wupr"
+NEXT_PUBLIC_SANITY_DATASET = "production"
+NEXT_PUBLIC_SANITY_API_VERSION = "2023-01-01"
 NEXT_PUBLIC_SANITY_API_TOKEN = "sk1SOgSME7SziJBJVILIWg7Ta5m63mtF5fu9izxcrCz6uvf2z1J7VYsG3liy5V6puf4SNAuFXNWOGR4RNpQJwKjQJJEhgGfJcKsE2sLFEPEUBEI92rLpIdvL6AridIsAkmvDdvOout1FwXdDSmqNMTz4h0DZHlZGhmIWCAqEnD3Jjuezprfp"
 RESEND_API_KEY = "re_gPFj3dxL_24sPHWgbThirnK6WLueKo2Kw"
